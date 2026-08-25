@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@prisma/client": "^7.10.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@vitejs/plugin-react": "latest",
     "html2canvas": "^1.4.1",
@@ -21,12 +22,14 @@
     "react-dom": "latest",
     "recharts": "^3.10.1",
     "tailwindcss": "^4.3.3",
-    "vite": "latest"
+    "vite": "latest",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^26.2.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
+    "prisma": "^8.0.0-rc.10",
     "typescript": "^5.9.3"
   }
 }

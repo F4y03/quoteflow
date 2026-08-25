@@ -1,0 +1,11 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "postgresql" }
+enum Role { ADMIN IT_SUPPORT VIEWER }
+enum DeviceStatus { ONLINE OFFLINE WARNING }
+enum TicketStatus { OPEN IN_PROGRESS WAITING RESOLVED CLOSED }
+enum Priority { LOW MEDIUM HIGH CRITICAL }
+model User { id String @id @default(cuid()) email String @unique name String role Role @default(VIEWER) tickets Ticket[] @relation("AssignedTickets") logs ActivityLog[] createdAt DateTime @default(now()) updatedAt DateTime @updatedAt }
+model Device { id String @id @default(cuid()) hostname String @unique ip String @unique mac String? @unique owner String? department String? operatingSystem String? status DeviceStatus @default(OFFLINE) lastSeenAt DateTime? diagnostics Diagnostic[] tickets Ticket[] createdAt DateTime @default(now()) updatedAt DateTime @updatedAt }
+model Ticket { id String @id @default(cuid()) title String description String status TicketStatus @default(OPEN) priority Priority @default(MEDIUM) deviceId String? device Device? @relation(fields: [deviceId], references: [id]) assignedToId String? assignedTo User? @relation("AssignedTickets", fields: [assignedToId], references: [id]) resolution String? createdAt DateTime @default(now()) updatedAt DateTime @updatedAt }
+model Diagnostic { id String @id @default(cuid()) target String result Json summary String deviceId String? device Device? @relation(fields: [deviceId], references: [id]) createdAt DateTime @default(now()) }
+model ActivityLog { id String @id @default(cuid()) action String entityType String entityId String? metadata Json? userId String? user User? @relation(fields: [userId], references: [id]) createdAt DateTime @default(now()) }

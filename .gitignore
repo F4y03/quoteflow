@@ -12,3 +12,7 @@ dist/
 # Local tooling output
 *.log
 *.tsbuildinfo
+
+# Local secrets — never commit these files. The example is safe to share.
+.env*
+!.env.example
