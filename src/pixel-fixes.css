@@ -1,0 +1,182 @@
+/* Component-width fixes: these rules must not depend on the browser viewport. */
+
+/* Calendar always uses a readable dark surface, even inside a narrow column
+   on an otherwise wide browser viewport. */
+.calendar-card {
+  container-type: inline-size;
+}
+
+.week button {
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid #4b6798 !important;
+  border-radius: 5px !important;
+  background: #1b2c4b !important;
+  color: #f2f6ff !important;
+  font-size: 13px;
+  font-weight: 750;
+  box-shadow: none !important;
+}
+
+.week button:hover {
+  border-color: #86a5dc !important;
+  background: #263f68 !important;
+}
+
+.week button.today {
+  border-color: #ffe078 !important;
+  background: linear-gradient(#ffd95a, #efa81f) !important;
+  color: #17203d !important;
+  box-shadow: inset 0 0 0 1px #fff09a !important;
+}
+
+@container (max-width: 520px) {
+  .calendar-card {
+    padding: 18px 14px;
+  }
+
+  .calendar-card header {
+    display: block;
+  }
+
+  .calendar-selectors {
+    display: grid;
+    grid-template-columns: 72px minmax(112px, 1fr) 84px;
+    gap: 8px;
+  }
+
+  .calendar-selectors select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .calendar-card header > span {
+    display: block;
+    margin-top: 14px;
+  }
+
+  .week {
+    gap: 5px;
+  }
+}
+
+/* Daily Work Update responds to its own panel width. */
+.hub-daily {
+  container-type: inline-size;
+}
+
+@container (max-width: 620px) {
+  .hub-daily .hub-daily-intro {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 0;
+    padding: 18px 14px;
+  }
+
+  .hub-daily .hub-daily-count {
+    flex: 0 0 74px;
+  }
+
+  .hub-daily .hub-daily-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .hub-daily .hub-daily-grid > article,
+  .hub-daily .hub-daily-grid > label {
+    min-width: 0;
+    margin: 0;
+  }
+
+  .hub-daily .hub-daily-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+/* Quote editor is a narrow work panel at every desktop size. Its line-item
+   layout therefore follows the panel, not the overall viewport. */
+main:not(.simple-main) .editor .line-editor {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: 28px minmax(0, 1fr) !important;
+  gap: 10px !important;
+  padding: 12px 10px !important;
+  border: 1px solid #456393 !important;
+  border-radius: 6px !important;
+  background: #111d38 !important;
+  box-shadow: none !important;
+}
+
+main:not(.simple-main) .editor .line-content {
+  min-width: 0;
+}
+
+main:not(.simple-main) .editor .line-content > input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 38px 10px 11px;
+  border: 1px solid #5573aa;
+  border-radius: 5px;
+  background: #0b1734;
+  color: #fff;
+  font-size: 13px;
+}
+
+main:not(.simple-main) .editor .mini {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  gap: 9px !important;
+  margin-top: 10px !important;
+}
+
+main:not(.simple-main) .editor .mini label {
+  min-width: 0;
+  margin: 0;
+  color: #d5e1f6;
+  font-size: 11px;
+}
+
+main:not(.simple-main) .editor .mini label:nth-child(3) {
+  grid-column: 1 / -1;
+}
+
+main:not(.simple-main) .editor .mini input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 9px 10px;
+  border: 1px solid #5573aa;
+  border-radius: 5px;
+  background: #0b1734;
+  color: #fff;
+  font-size: 13px;
+}
+
+main:not(.simple-main) .editor .remove {
+  position: absolute;
+  z-index: 2;
+  top: 18px;
+  right: 13px;
+  display: grid;
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  min-height: 32px;
+  place-items: center;
+}
+
+@media (max-width: 380px) {
+  main:not(.simple-main) .editor .mini {
+    grid-template-columns: 1fr !important;
+  }
+
+  main:not(.simple-main) .editor .mini label:nth-child(3) {
+    grid-column: auto;
+  }
+}

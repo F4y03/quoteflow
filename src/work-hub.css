@@ -1,0 +1,32 @@
+.hub-daily{margin-top:30px}.hub-daily-intro{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.hub-daily-intro>div>span,.hub-daily-grid>article>span,.hub-daily-grid>label>span{font:700 10px Manrope;letter-spacing:1px;color:#a67a47}.hub-daily-intro h2{margin:6px 0;font-size:22px}.hub-daily-intro p{margin:0;color:#82908e;font-size:13px}.hub-daily-count{padding:13px 22px;background:#fffdf9;border-radius:9px;text-align:center}.hub-daily-count b,.hub-daily-count span{display:block}.hub-daily-count b{font:700 24px Manrope}.hub-daily-count span{font-size:10px;color:#85918e}.hub-daily-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.hub-daily-grid>article,.hub-daily-grid>label{display:block;padding:18px;background:#fffdfb;border-radius:8px}.hub-daily-grid>article p{margin:13px 0 0;padding-top:11px;border-top:1px solid #eeeae2;font-size:12px}.hub-daily-grid>article p b{color:#c58f58;margin-right:8px}.hub-daily-grid>article p small{display:block;margin:3px 0 0 20px;color:#8b9692;font-size:10px}.hub-daily-grid em{display:block;margin-top:16px;color:#9aa19d;font-size:12px;font-style:normal}.hub-daily-grid>label{display:flex;flex-direction:column;gap:10px}.hub-daily-grid textarea{min-height:105px;resize:vertical;border:1px solid #e2ded5;border-radius:6px;padding:11px;background:#fff;font:12px 'IBM Plex Sans Thai';color:#20313d}.hub-daily-footer{display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding:15px 17px;background:#ebe8e0;border-radius:8px;color:#737d78;font-size:12px}.hub-daily-footer button{border:0;border-radius:6px;padding:10px 14px;background:#243946;color:#fff;font:600 12px 'IBM Plex Sans Thai'}
+@media (max-width:720px){.simple-top{padding:0 18px;gap:15px}.simple-top nav{gap:0;overflow:auto}.simple-top nav button{padding-left:7px;padding-right:7px;white-space:nowrap}.simple-top .add-top{display:none}.simple-main{padding:38px 18px}.simple-head{align-items:flex-start;gap:20px}.simple-head h1{font-size:25px}.hub-daily-intro{align-items:flex-start;gap:16px}.hub-daily-grid{grid-template-columns:1fr}.hub-daily-count{padding:10px 14px}.hub-daily-footer{align-items:flex-start;gap:12px;flex-direction:column}}
+
+/* High-contrast palette for the active Work Hub surface. */
+.simple-tracker{background:#edf3f8;color:#14283d}
+.simple-top{background:#102d47}
+.simple-top nav button{color:#d7e5f0}
+.simple-top nav button.active{color:#fff;border-bottom-color:#ffad4d}
+.simple-top .add-top{background:#ed7b2f;color:#fff}
+.simple-head{border-bottom-color:#c8d5e0}
+.simple-head span,.notes-simple>article>span{color:#a34808}
+.simple-head p,.hub-daily-intro p{color:#435b71}
+.simple-summary,.hub-daily-count{background:#fff;border:1px solid #c8d6e2}
+.simple-summary b,.hub-daily-count b{color:#14283d}
+.simple-summary span,.hub-daily-count span{color:#405a70}
+.simple-col{background:#d9e6f0;border:1px solid #bdcedb}
+.simple-col h2{color:#14283d}
+.simple-col h2 span{color:#3e5a70}
+.simple-col article,.day-tasks article,.hub-daily-grid>article,.hub-daily-grid>label{background:#fff;border:1px solid #c8d6e2;box-shadow:0 2px 8px #16324a12}
+.simple-col small,.day-tasks small,.hub-daily-grid>article p small{color:#456077}
+.simple-col article>b,.day-tasks b,.hub-daily-grid>article p{color:#14283d}
+.simple-col article button{background:#e7eff5;color:#24445d;border:1px solid #b8cad8}
+.simple-col article button.selected{background:#123c5b;color:#fff;border-color:#123c5b}
+.hub-daily-grid>article>span,.hub-daily-grid>label>span{color:#a34808}
+.hub-daily-grid>article p{border-top-color:#d5e0e8}
+.hub-daily-grid>article p b{color:#d2601e}
+.hub-daily-grid em{color:#526b80}
+.hub-daily-grid textarea{border-color:#aebfcd;color:#14283d}
+.hub-daily-grid textarea::placeholder{color:#71879a}
+.hub-daily-footer{background:#d9e6f0;color:#29465e;border:1px solid #bdcedb}
+.hub-daily-footer button{background:#123c5b}
+.simple-top button:focus-visible,.simple-col button:focus-visible,.hub-daily button:focus-visible,.hub-daily textarea:focus-visible{outline:3px solid #ffad4d;outline-offset:2px}

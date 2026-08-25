@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Framework build output and local caches
+.next/
+.next-local/
+.next-local-*/
+.npm-cache/
+work/npm-cache/
+dist/
+
+# Local tooling output
+*.log
+*.tsbuildinfo

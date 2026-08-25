@@ -1,0 +1,45 @@
+.root {
+  min-height: 100dvh;
+  background: #f8fafc;
+  color: #0f172a;
+  font-family: Arial, "IBM Plex Sans Thai", sans-serif;
+  line-height: 1.5;
+  isolation: isolate;
+}
+
+.root :global(*) {
+  box-sizing: border-box;
+}
+
+.root :global(button),
+.root :global(input),
+.root :global(textarea),
+.root :global(select) {
+  font-family: inherit;
+}
+
+.root :global(h1),
+.root :global(h2),
+.root :global(h3),
+.root :global(p),
+.root :global(label) {
+  margin: 0;
+}
+
+.root :global(section) {
+  border-top: 0;
+  padding: 0;
+}
+
+.canvasGrid {
+  background-color: #f8fafc;
+  background-image: radial-gradient(#cbd5e1 0.7px, transparent 0.7px);
+  background-size: 18px 18px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root :global(*) {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
