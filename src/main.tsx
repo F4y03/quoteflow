@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Network } from 'lucide-react'
+import { Network, Settings } from 'lucide-react'
 import QuoteImporter from './quote-importer'
 import TaskTracker from './task-tracker'
 
@@ -109,6 +109,7 @@ function Dashboard({ onOpenQuotes, onOpenTracker, darkMode, onToggleTheme }: { o
         <button className="side-item" onClick={onOpenQuotes}><span className="side-icon quote-mini">Q</span>ใบเสนอราคา</button>
         <button className="side-item" onClick={onOpenTracker}><span className="side-icon tracker-mini">✓</span>Work Hub</button>
         <button className="side-item" onClick={openSupport}><span className="side-icon tracker-mini"><Network aria-hidden="true" size={20}/></span>IT Support</button>
+        <button className="side-item" onClick={() => window.location.assign('/it-support/settings')}><span className="side-icon tracker-mini"><Settings aria-hidden="true" size={20}/></span>ตั้งค่าระบบ</button>
         <button className="side-item disabled"><span className="side-icon">+</span>เพิ่มโปรแกรม</button>
         <div className="sidebar-bottom"><div className="avatar">P</div><div><b>Lv.15 · Personal</b><span>850 / 1500 XP</span><i className="xp-bar"><em /></i></div></div>
       </aside>
