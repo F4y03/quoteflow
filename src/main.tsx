@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { Network } from 'lucide-react'
 import QuoteImporter from './quote-importer'
 import TaskTracker from './task-tracker'
 
@@ -97,6 +98,7 @@ function ToolBar({ active, onHome, onQuotes, onTracker, showTracker = true, dark
 }
 
 function Dashboard({ onOpenQuotes, onOpenTracker, darkMode, onToggleTheme }: { onOpenQuotes: () => void; onOpenTracker: () => void; darkMode: boolean; onToggleTheme: () => void }) {
+  const openSupport = () => window.location.assign('/it-support')
   return <div className="workspace">
     <ToolBar active="dashboard" onHome={() => {}} onQuotes={onOpenQuotes} onTracker={onOpenTracker} darkMode={darkMode} onToggleTheme={onToggleTheme} />
     <div className="workspace-body">
@@ -106,16 +108,18 @@ function Dashboard({ onOpenQuotes, onOpenTracker, darkMode, onToggleTheme }: { o
         <div className="side-label space-top">เครื่องมือของคุณ</div>
         <button className="side-item" onClick={onOpenQuotes}><span className="side-icon quote-mini">Q</span>ใบเสนอราคา</button>
         <button className="side-item" onClick={onOpenTracker}><span className="side-icon tracker-mini">✓</span>Work Hub</button>
+        <button className="side-item" onClick={openSupport}><span className="side-icon tracker-mini"><Network aria-hidden="true" size={20}/></span>IT Support</button>
         <button className="side-item disabled"><span className="side-icon">+</span>เพิ่มโปรแกรม</button>
         <div className="sidebar-bottom"><div className="avatar">P</div><div><b>Lv.15 · Personal</b><span>850 / 1500 XP</span><i className="xp-bar"><em /></i></div></div>
       </aside>
       <section className="dashboard-content">
         <header className="dashboard-header"><div><p>สวัสดีครับ</p><h1>วันนี้อยากทำอะไร?</h1></div><button className="new-tool-button" onClick={onOpenQuotes}><span>+</span> สร้างเครื่องมือ</button></header>
         <div className="dashboard-hero"><div className="hero-copy"><span className="eyebrow">QUOTEFLOW WORKSPACE</span><h2>ทุกโปรแกรมของคุณ<br/><em>อยู่ในที่เดียว</em></h2><p>จัดการเครื่องมือสำหรับงานประจำวัน เลือกโปรแกรมเพื่อเริ่มทำงาน หรือค่อย ๆ เพิ่มระบบใหม่ได้ตามต้องการ</p><button onClick={onOpenQuotes}>เปิดใบเสนอราคา <b>→</b></button></div><div className="hero-art" aria-hidden="true"><i></i><i></i><i></i><div className="art-card"><span>THB</span><b>125,000</b><small>ยอดเสนอราคาล่าสุด</small></div></div></div>
-        <div className="section-heading"><div><span className="eyebrow">YOUR TOOLS</span><h2>เครื่องมือของคุณ</h2></div><span className="tool-count">2 โปรแกรม</span></div>
+        <div className="section-heading"><div><span className="eyebrow">YOUR TOOLS</span><h2>เครื่องมือของคุณ</h2></div><span className="tool-count">3 โปรแกรม</span></div>
         <div className="app-grid">
           <button className="app-card quote-app" onClick={onOpenQuotes}><div className="app-card-top"><span className="app-logo">Q</span><span className="ready-pill">พร้อมใช้งาน</span></div><h3>ใบเสนอราคา</h3><p>สร้าง แก้ไข และส่งออกเอกสารเสนอราคาแบบมืออาชีพ</p><div className="app-card-footer"><span>Quotation Studio</span><b>เปิด <i>→</i></b></div></button>
           <button className="app-card tracker-app" onClick={onOpenTracker}><div className="app-card-top"><span className="app-logo tracker-logo">✓</span><span className="ready-pill">พร้อมใช้งาน</span></div><h3>Work Hub</h3><p>จัดการ Task Board และสรุป Daily Work Update จากงานชุดเดียวกัน</p><div className="app-card-footer"><span>Tasks + Daily Update</span><b>เปิด <i>→</i></b></div></button>
+          <button className="app-card tracker-app" onClick={openSupport}><div className="app-card-top"><span className="app-logo tracker-logo"><Network aria-hidden="true" size={24}/></span><span className="ready-pill">พร้อมใช้งาน</span></div><h3>IT Support Assistant</h3><p>ตรวจสอบ Network, อุปกรณ์ และวิเคราะห์ปัญหาเบื้องต้นอย่างเป็นระบบ</p><div className="app-card-footer"><span>Network Operations</span><b>เปิด <i>→</i></b></div></button>
         </div>
       </section>
     </div>

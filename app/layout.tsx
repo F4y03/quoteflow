@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import "./globals.css"
+import "./it-support/support.css"
 import "../src/styles.css"
 import "../src/dashboard.css"
 import "../src/quote-importer.css"
