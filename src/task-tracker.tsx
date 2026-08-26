@@ -25,6 +25,7 @@ export default function TaskTracker({ onHome, darkMode, onToggleTheme }: { onHom
 	const [view, setView] = useState<View>('board')
 	const [show, setShow] = useState(false)
 	const [text, setText] = useState('')
+	const [dueDate, setDueDate] = useState(() => { const now = new Date(); return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}` })
 	const [day, setDay] = useState(1)
 	const [month, setMonth] = useState(0)
 	const [year, setYear] = useState(currentYear)
@@ -57,7 +58,11 @@ export default function TaskTracker({ onHome, darkMode, onToggleTheme }: { onHom
 	const daysInMonth = new Date(year - 543, month + 1, 0).getDate()
 	const add = () => {
 		if (text.trim()) {
-			setTasks(current => [{ id: Date.now(), title: text, project: 'General', due: day, status: 'todo' }, ...current])
+			const selectedDate = new Date(`${dueDate}T00:00:00`)
+			setTasks(current => [{ id: Date.now(), title: text, project: 'General', due: selectedDate.getDate(), status: 'todo' }, ...current])
+			setDay(selectedDate.getDate())
+			setMonth(selectedDate.getMonth())
+			setYear(selectedDate.getFullYear() + 543)
 			setShow(false)
 			setText('')
 		}
@@ -72,7 +77,7 @@ export default function TaskTracker({ onHome, darkMode, onToggleTheme }: { onHom
 	return <div className="simple-tracker">
 		<header className="simple-top"><button onClick={onHome}><span>✓</span>Work Hub</button><nav><button onClick={onHome}>ภาพรวม</button>{(['board', 'planner', 'notes'] as View[]).map(item => <button key={item} className={view === item ? 'active' : ''} onClick={() => setView(item)}>{item === 'board' ? 'งาน' : item === 'planner' ? 'ปฏิทิน + Daily Update' : 'Meeting Notes'}</button>)}</nav><div className="simple-actions"><button className="theme-toggle" onClick={onToggleTheme} aria-label={darkMode ? 'เปลี่ยนเป็นโหมดสว่าง' : 'เปลี่ยนเป็นโหมดมืด'}>{darkMode ? '☀' : '☾'}</button></div></header>
 		<main className="simple-main"><section className="simple-head"><div><span>WORK HUB</span><h1>{view === 'planner' ? 'ปฏิทิน + Daily Work Update' : view === 'notes' ? 'Meeting Notes' : 'งานของคุณ'}</h1><p>{view === 'board' ? 'จัดการงานและสถานะจากที่เดียว' : view === 'planner' ? `เลือกวันที่เพื่อดูงานและบันทึก Daily Update · ${day} ${thaiMonths[month]} ${year}` : 'สรุปประเด็นสำคัญและ action items'}</p></div><div className="simple-head-actions"><div className="simple-summary"><b>{tasks.filter(task => task.status !== 'done').length}</b><span>งานที่กำลังเปิด</span></div></div></section>{view === 'board' ? <Board tasks={tasks} setTasks={setTasks} onAddTask={() => setShow(true)} /> : view === 'planner' ? <section className="planner-view"><Calendar tasks={tasks} day={day} month={month} year={year} daysInMonth={daysInMonth} setDay={setDay} setMonth={setMonth} setYear={setYear} dailyUpdates={dailyUpdates} /><DailyView date={dateReady ? `${day} ${thaiMonths[month]} ${year}` : 'กำลังโหลดวันที่ปัจจุบัน...'} completed={completedToday} todo={todoTasks} progress={progressTasks} blockers={blockers} setBlockers={setBlockers} tomorrow={tomorrow} setTomorrow={setTomorrow} saved={saved} onSave={saveDailyUpdate} /></section> : <Notes />}</main>
-		{show && <div className="simple-modal-bg"><form className="simple-modal" onSubmit={event => { event.preventDefault(); add() }}><button type="button" onClick={() => setShow(false)}>×</button><span>NEW TASK</span><h2>สร้างงานใหม่</h2><input autoFocus value={text} onChange={event => setText(event.target.value)} placeholder="ชื่องาน"/><label>กำหนดส่ง<select value={day} onChange={event => setDay(+event.target.value)}>{[18, 19, 20, 21, 22, 23].map(number => <option key={number}>{number}</option>)}</select></label><footer><button type="button" onClick={() => setShow(false)}>ยกเลิก</button><button>บันทึกงาน</button></footer></form></div>}
+		{show && <div className="simple-modal-bg"><form className="simple-modal" onSubmit={event => { event.preventDefault(); add() }}><button type="button" onClick={() => setShow(false)} aria-label="ปิดหน้าต่างสร้างงาน">×</button><span>NEW TASK</span><h2>สร้างงานใหม่</h2><input autoFocus value={text} onChange={event => setText(event.target.value)} placeholder="ชื่องาน" aria-label="ชื่องาน"/><label>กำหนดส่ง<input className="simple-modal-date-input" type="date" value={dueDate} inputMode="none" onClick={event => event.currentTarget.showPicker?.()} onKeyDown={event => event.preventDefault()} onPaste={event => event.preventDefault()} onChange={event => { const value = event.target.value; setDueDate(value); const selectedDate = new Date(`${value}T00:00:00`); if (!Number.isNaN(selectedDate.getTime())) { setDay(selectedDate.getDate()); setMonth(selectedDate.getMonth()); setYear(selectedDate.getFullYear() + 543); } }} aria-label="เลือกวันกำหนดส่งจากปฏิทิน" /></label><small className="simple-modal-date-help">คลิกช่องวันที่เพื่อเลือกจากปฏิทิน ระบบจะย้ายปฏิทินไปยังวันที่เลือก</small><footer><button type="button" onClick={() => setShow(false)}>ยกเลิก</button><button>บันทึกงาน</button></footer></form></div>}
 	</div>
 }
 

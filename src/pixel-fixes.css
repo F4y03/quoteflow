@@ -180,3 +180,98 @@ main:not(.simple-main) .editor .remove {
     grid-column: auto;
   }
 }
+
+/* Work Hub must not inherit the quotation editor's two-column <main> grid. */
+main.simple-main {
+  display: block !important;
+  width: min(1240px, 100%) !important;
+  max-width: none !important;
+  min-height: calc(100dvh - 64px);
+  margin: 0 auto !important;
+  padding: 32px 34px 56px !important;
+}
+
+/* The new-task dialog belongs to the dark Pixel Quest UI, never a white card. */
+.simple-modal-bg {
+  z-index: 100 !important;
+  background: rgba(1, 5, 18, .84) !important;
+}
+
+.simple-modal-bg .simple-modal {
+  width: min(420px, calc(100% - 32px)) !important;
+  padding: 28px !important;
+  border: 3px solid #719ee8 !important;
+  border-radius: 4px !important;
+  background: linear-gradient(145deg, #172958, #0c1635) !important;
+  box-shadow: inset 0 0 0 3px #07102a, 0 8px 0 #01040d, 0 22px 60px rgba(0, 0, 0, .55) !important;
+  color: #f6f7ff !important;
+}
+
+.simple-modal > span { color: #bda7ff !important; }
+.simple-modal h2 { color: #fff !important; }
+.simple-modal > label { color: #d4def4 !important; font-weight: 800; }
+.simple-modal > input,
+.simple-modal > label select {
+  min-height: 44px !important;
+  border: 2px solid #47659f !important;
+  border-radius: 3px !important;
+  background: #08132e !important;
+  color: #fff !important;
+}
+.simple-modal > input::placeholder { color: #aebfdf !important; }
+.simple-modal-date-input { cursor: pointer; }
+.simple-modal-date-help { display: block; margin-top: -8px; color: #b9c9ea; font-size: 11px; }
+.simple-modal > input:focus,
+.simple-modal > label select:focus { outline: 3px solid #ffc83d !important; outline-offset: 2px; }
+.simple-modal footer button:first-child { background: #142750 !important; color: #fff !important; border-color: #5271ae !important; }
+.simple-modal footer button:last-child { background: linear-gradient(#ffd95a, #e89b17) !important; color: #17203d !important; border-color: #ffdf70 !important; }
+
+@media (max-width: 700px) {
+  main.simple-main { padding: 22px 14px 44px !important; }
+}
+
+/* Saved Daily Update content needs the same high-contrast treatment as its frame. */
+.planner-view .calendar-update-preview {
+  margin-top: 12px !important;
+  padding: 14px !important;
+  border: 2px solid #45649d !important;
+  border-radius: 3px !important;
+  background: #091630 !important;
+  color: #f2f6ff !important;
+}
+
+.planner-view .calendar-saved-note {
+  display: block;
+  margin: 0 0 10px !important;
+  color: #b9c9ea !important;
+  font-weight: 800;
+}
+
+.planner-view .saved-task-group {
+  margin-top: 0 !important;
+  padding: 12px 0 !important;
+  border-top: 1px solid #496393 !important;
+  border-bottom: 0 !important;
+}
+
+.planner-view .saved-task-group > b,
+.planner-view .calendar-update-preview p b {
+  color: #fff !important;
+  font-size: 12px !important;
+}
+
+.planner-view .saved-task-group p,
+.planner-view .calendar-update-preview p {
+  margin: 7px 0 0 !important;
+  color: #f2f6ff !important;
+  font-size: 13px !important;
+  line-height: 1.55 !important;
+}
+
+.planner-view .saved-task-group p small,
+.planner-view .calendar-update-preview p small {
+  display: block;
+  margin-top: 3px;
+  color: #b9c9ea !important;
+  font-size: 11px !important;
+}
