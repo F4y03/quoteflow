@@ -16,3 +16,6 @@ dist/
 # Local secrets — never commit these files. The example is safe to share.
 .env*
 !.env.example
+
+# Runtime reports are created locally and may contain internal server addresses.
+data/it-support-reports.json

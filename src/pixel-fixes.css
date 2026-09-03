@@ -275,3 +275,36 @@ main.simple-main {
   color: #b9c9ea !important;
   font-size: 11px !important;
 }
+
+/* Meeting Notes must remain readable on the dark Work Hub canvas. */
+.notes-simple {
+  padding: 8px !important;
+  border: 2px solid #294477 !important;
+  border-radius: 4px !important;
+  background: linear-gradient(#14224a, #0c1532) !important;
+  box-shadow: inset 0 0 0 2px #070d21, 0 5px 0 #02050f !important;
+}
+
+.notes-simple article {
+  min-width: 0;
+  padding: 22px !important;
+  border: 2px solid #385182 !important;
+  border-radius: 3px !important;
+  background: linear-gradient(145deg, #172a54, #101f43) !important;
+  color: #f6f7ff !important;
+  box-shadow: inset 0 0 0 1px #09132d, 0 3px 0 #030713 !important;
+}
+
+.notes-simple article > span { color: #bda7ff !important; }
+.notes-simple article h2,
+.notes-simple article b { color: #fff !important; }
+.notes-simple article p,
+.notes-simple article label { color: #d8e4f8 !important; }
+.notes-simple article hr { border-color: #36517f !important; }
+.notes-simple article label { padding: 11px 0 !important; border-bottom: 1px solid #2f4b7f !important; }
+.notes-simple article input[type="checkbox"] { width: 18px; height: 18px; accent-color: #44b84b; }
+.notes-simple article > button,
+.notes-simple .notification-permission { min-height: 44px; border: 2px solid #5576b5 !important; border-radius: 3px !important; background: #122752 !important; color: #fff !important; padding: 0 12px !important; }
+.notes-simple article > button:hover,
+.notes-simple .notification-permission:hover { border-color: #ffdf70 !important; background: #1b376d !important; }
+.notes-simple .action-item-form input { border: 2px solid #5576b5 !important; border-radius: 3px !important; background: #08132e !important; color: #fff !important; }

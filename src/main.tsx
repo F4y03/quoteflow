@@ -1,9 +1,10 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Network, Settings } from 'lucide-react'
+import { Network } from 'lucide-react'
 import QuoteImporter from './quote-importer'
 import TaskTracker from './task-tracker'
+import AuditDocumentStudio from './audit-document-studio'
 
 type Item = { id: number; name: string; qty: number; unit: string; price: number }
 type ImportedQuote = { company?: string; customer?: string; title?: string; docNo?: string; date?: string; items?: Item[]; sourceName: string; rawText: string }
@@ -83,33 +84,34 @@ function QuoteStudio({ onHome, onTracker, darkMode, onToggleTheme }: { onHome: (
     </section>
   </main>{importOpen && <QuoteImporter onClose={() => setImportOpen(false)} onApply={applyImport}/>}</>
 }
-type ToolId = 'dashboard' | 'quotes' | 'tracker' | 'daily'
+type ToolId = 'dashboard' | 'quotes' | 'audit' | 'tracker' | 'daily'
 
-function ToolBar({ active, onHome, onQuotes, onTracker, showTracker = true, darkMode, onToggleTheme }: { active: ToolId; onHome: () => void; onQuotes?: () => void; onTracker?: () => void; showTracker?: boolean; darkMode: boolean; onToggleTheme: () => void }) {
+function ToolBar({ active, onHome, onQuotes, onAudit, onTracker, showTracker = true, darkMode, onToggleTheme }: { active: ToolId; onHome: () => void; onQuotes?: () => void; onAudit?: () => void; onTracker?: () => void; showTracker?: boolean; darkMode: boolean; onToggleTheme: () => void }) {
   return <nav className="tool-bar">
     <button className="tool-brand" onClick={onHome} aria-label="กลับหน้าศูนย์รวมเครื่องมือ"><span>Q</span><b>QuoteFlow</b></button>
     <div className="tool-nav">
       <button className={`tool-nav-item ${active === 'dashboard' ? 'active' : ''}`} onClick={onHome}>ภาพรวม</button>
       <button className={`tool-nav-item ${active === 'quotes' ? 'active' : ''}`} onClick={onQuotes}>ใบเสนอราคา</button>
+      <button className={`tool-nav-item ${active === 'audit' ? 'active' : ''}`} onClick={onAudit}>เอกสารตรวจสอบ</button>
       {showTracker && <button className={`tool-nav-item ${active === 'tracker' ? 'active' : ''}`} onClick={onTracker}>Work Hub</button>}
     </div>
     <div className="tool-actions"><span className="game-coins" aria-label="คะแนนสะสม 2,450"><i aria-hidden="true">◆</i> 2,450</span><span className="tool-status">● บันทึกอัตโนมัติ</span><button className="theme-toggle" onClick={onToggleTheme} aria-label={darkMode ? 'เปลี่ยนเป็นโหมดสว่าง' : 'เปลี่ยนเป็นโหมดมืด'} title={darkMode ? 'โหมดสว่าง' : 'โหมดมืด'}>{darkMode ? '☀' : '☾'}</button><button className="tool-help" title="เพิ่มเครื่องมือใหม่ได้จากโค้ด">?</button><span className="game-avatar" aria-hidden="true">Q</span></div>
   </nav>
 }
 
-function Dashboard({ onOpenQuotes, onOpenTracker, darkMode, onToggleTheme }: { onOpenQuotes: () => void; onOpenTracker: () => void; darkMode: boolean; onToggleTheme: () => void }) {
+function Dashboard({ onOpenQuotes, onOpenAudit, onOpenTracker, darkMode, onToggleTheme }: { onOpenQuotes: () => void; onOpenAudit: () => void; onOpenTracker: () => void; darkMode: boolean; onToggleTheme: () => void }) {
   const openSupport = () => window.location.assign('/it-support')
   return <div className="workspace">
-    <ToolBar active="dashboard" onHome={() => {}} onQuotes={onOpenQuotes} onTracker={onOpenTracker} darkMode={darkMode} onToggleTheme={onToggleTheme} />
+    <ToolBar active="dashboard" onHome={() => {}} onQuotes={onOpenQuotes} onAudit={onOpenAudit} onTracker={onOpenTracker} darkMode={darkMode} onToggleTheme={onToggleTheme} />
     <div className="workspace-body">
       <aside className="workspace-sidebar">
         <div className="side-label">WORKSPACE</div>
         <button className="side-item active"><span className="side-icon">⌘</span>ภาพรวม</button>
         <div className="side-label space-top">เครื่องมือของคุณ</div>
         <button className="side-item" onClick={onOpenQuotes}><span className="side-icon quote-mini">Q</span>ใบเสนอราคา</button>
+        <button className="side-item" onClick={onOpenAudit}><span className="side-icon quote-mini">D</span>เอกสารตรวจสอบ</button>
         <button className="side-item" onClick={onOpenTracker}><span className="side-icon tracker-mini">✓</span>Work Hub</button>
         <button className="side-item" onClick={openSupport}><span className="side-icon tracker-mini"><Network aria-hidden="true" size={20}/></span>IT Support</button>
-        <button className="side-item" onClick={() => window.location.assign('/it-support/settings')}><span className="side-icon tracker-mini"><Settings aria-hidden="true" size={20}/></span>ตั้งค่าระบบ</button>
         <button className="side-item disabled"><span className="side-icon">+</span>เพิ่มโปรแกรม</button>
         <div className="sidebar-bottom"><div className="avatar">P</div><div><b>Lv.15 · Personal</b><span>850 / 1500 XP</span><i className="xp-bar"><em /></i></div></div>
       </aside>
@@ -119,6 +121,7 @@ function Dashboard({ onOpenQuotes, onOpenTracker, darkMode, onToggleTheme }: { o
         <div className="section-heading"><div><span className="eyebrow">YOUR TOOLS</span><h2>เครื่องมือของคุณ</h2></div><span className="tool-count">3 โปรแกรม</span></div>
         <div className="app-grid">
           <button className="app-card quote-app" onClick={onOpenQuotes}><div className="app-card-top"><span className="app-logo">Q</span><span className="ready-pill">พร้อมใช้งาน</span></div><h3>ใบเสนอราคา</h3><p>สร้าง แก้ไข และส่งออกเอกสารเสนอราคาแบบมืออาชีพ</p><div className="app-card-footer"><span>Quotation Studio</span><b>เปิด <i>→</i></b></div></button>
+          <button className="app-card quote-app" onClick={onOpenAudit}><div className="app-card-top"><span className="app-logo">D</span><span className="ready-pill">พร้อมใช้งาน</span></div><h3>เอกสารตรวจสอบ IT</h3><p>จัดทำเอกสารสำหรับ Internal Audit, External Audit และ ISO พร้อมส่งออก PDF</p><div className="app-card-footer"><span>IT Audit Documents</span><b>เปิด <i>→</i></b></div></button>
           <button className="app-card tracker-app" onClick={onOpenTracker}><div className="app-card-top"><span className="app-logo tracker-logo">✓</span><span className="ready-pill">พร้อมใช้งาน</span></div><h3>Work Hub</h3><p>จัดการ Task Board และสรุป Daily Work Update จากงานชุดเดียวกัน</p><div className="app-card-footer"><span>Tasks + Daily Update</span><b>เปิด <i>→</i></b></div></button>
           <button className="app-card tracker-app" onClick={openSupport}><div className="app-card-top"><span className="app-logo tracker-logo"><Network aria-hidden="true" size={24}/></span><span className="ready-pill">พร้อมใช้งาน</span></div><h3>IT Support Assistant</h3><p>ตรวจสอบ Network, อุปกรณ์ และวิเคราะห์ปัญหาเบื้องต้นอย่างเป็นระบบ</p><div className="app-card-footer"><span>Network Operations</span><b>เปิด <i>→</i></b></div></button>
         </div>
@@ -140,7 +143,8 @@ export default function App() {
   }, [darkMode])
   const toggleTheme = () => setDarkMode(value => !value)
   if (activeTool === 'quotes') return <QuoteStudio onHome={() => setActiveTool('dashboard')} onTracker={() => setActiveTool('tracker')} darkMode={darkMode} onToggleTheme={toggleTheme} />
+  if (activeTool === 'audit') return <AuditDocumentStudio onHome={() => setActiveTool('dashboard')} darkMode={darkMode} onToggleTheme={toggleTheme} />
   if (activeTool === 'tracker') return <TaskTracker onHome={() => setActiveTool('dashboard')} darkMode={darkMode} onToggleTheme={toggleTheme} />
-  return <Dashboard onOpenQuotes={() => setActiveTool('quotes')} onOpenTracker={() => setActiveTool('tracker')} darkMode={darkMode} onToggleTheme={toggleTheme} />
+  return <Dashboard onOpenQuotes={() => setActiveTool('quotes')} onOpenAudit={() => setActiveTool('audit')} onOpenTracker={() => setActiveTool('tracker')} darkMode={darkMode} onToggleTheme={toggleTheme} />
 }
 function Field({label,value,set}:{label:string,value:string,set:(v:string)=>void}) { return <label>{label}<input value={value} onChange={e=>set(e.target.value)}/></label> }

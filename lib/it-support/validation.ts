@@ -6,5 +6,5 @@ export const systemSettingsSchema = z.object({
   allowedNetworks: z.string().trim().min(1, "โปรดระบุเครือข่ายที่อนุญาต").max(1000, "รายการเครือข่ายยาวเกินไป"),
   intervalMinutes: z.coerce.number().int().min(5, "ตั้งรอบตรวจสอบอย่างน้อย 5 นาที").max(1440, "ตั้งรอบตรวจสอบได้ไม่เกิน 1,440 นาที"),
   demoMode: z.boolean(),
-  adminToken: z.string().min(1, "โปรดกรอกรหัสผู้ดูแลระบบ"),
+  databaseUrl: z.string().trim().max(2000).optional().refine((value) => !value || /^postgres(?:ql)?:\/\//i.test(value), "DATABASE_URL ต้องขึ้นต้นด้วย postgresql:// หรือ postgres://"),
 });

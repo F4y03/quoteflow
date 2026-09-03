@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Activity, Cable, ChevronRight, CircleAlert, Clipboard, Copy, Globe2, MonitorCog, Network, RadioTower, SearchCode, ShieldCheck, Ticket, Wrench } from "lucide-react";
+import { Activity, Cable, ChevronRight, CircleAlert, Clipboard, Copy, FileText, Globe2, MonitorCog, Network, RadioTower, SearchCode, Settings, ShieldCheck, Ticket, Wrench } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { devices, healthTrend, recentTickets } from "../_lib/data";
 import { networkService } from "../_lib/network-service";
@@ -10,14 +10,16 @@ import { DeviceList } from "./device-list";
 import { DiagnosticTimeline } from "./diagnostic-timeline";
 import { MetricCard } from "./metric-card";
 import { StatusBadge } from "./status-badge";
+import { ReportWorkbench } from "./report-workbench";
 
-type View = "dashboard" | "network" | "devices";
+type View = "dashboard" | "network" | "devices" | "reports";
 type Tool = "ping" | "dns" | "port" | "ip" | "diagnostic";
 
 const nav: Array<{ id: View; label: string; icon: typeof Activity }> = [
   { id: "dashboard", label: "ภาพรวม", icon: Activity },
   { id: "network", label: "เครื่องมือตรวจสอบ", icon: Network },
   { id: "devices", label: "อุปกรณ์ในระบบ", icon: MonitorCog },
+  { id: "reports", label: "รายงานตรวจสอบ", icon: FileText },
 ];
 const tools: Array<{ id: Tool; label: string; icon: typeof Activity; description: string }> = [
   { id: "ping", label: "ทดสอบการเชื่อมต่อ (Ping)", icon: RadioTower, description: "เช็กว่าเครื่องปลายทางตอบกลับหรือไม่" },
@@ -69,9 +71,9 @@ export function SupportConsole() {
   };
 
   return <main className="its-shell">
-    <header className="its-topbar"><a href="/" className="its-brand"><span aria-hidden="true">IT</span><b>ผู้ช่วยฝ่ายไอที</b><small>ศูนย์ตรวจสอบระบบ</small></a><div className="its-top-status"><ShieldCheck aria-hidden="true" size={17} />โหมดสาธิต: ยังไม่ส่งคำสั่งไปยังเครื่องจริง</div><button className="its-icon-button" type="button" aria-label="คัดลอกสรุปสถานะ" onClick={() => copy("สรุปสถานะ IT Support") }><Clipboard aria-hidden="true" size={19} /></button></header>
-    <div className="its-layout"><aside className="its-sidebar"><p>เมนูหลัก</p>{nav.map(({ id, label, icon: Icon }) => <button key={id} type="button" className={view === id ? "active" : ""} onClick={() => go(id)}><Icon aria-hidden="true" size={19} /><span>{label}</span><ChevronRight aria-hidden="true" size={16} /></button>)}<p>เครื่องมือเครือข่าย</p>{tools.map(({ id, label, icon: Icon }) => <button key={id} type="button" className={view === "network" && tool === id ? "active" : ""} onClick={() => go("network", id)}><Icon aria-hidden="true" size={18} /><span>{label}</span><ChevronRight aria-hidden="true" size={16} /></button>)}<div className="its-sidebar-foot"><span>สถานะการติดตาม</span><strong><i /> 17 / 20 เครื่องออนไลน์</strong><small>ซิงก์ข้อมูลล่าสุด: เมื่อสักครู่</small></div></aside>
-      <section className="its-content"><div className="its-page-head"><div><p className="its-kicker">{activeLabel} · ข้อมูลสาธิต</p><h1>{view === "dashboard" ? "วันนี้มีอะไรที่ต้องดูแลบ้าง?" : view === "network" ? "เลือกเครื่องมือให้ตรงกับอาการ" : "อุปกรณ์ที่ระบบกำลังติดตาม"}</h1><span>{view === "dashboard" ? "เริ่มจากการแจ้งเตือนสีแดง แล้วใช้เครื่องมือด้านล่างเพื่อหาสาเหตุอย่างเป็นขั้นตอน" : view === "network" ? "ผลลัพธ์ในหน้านี้เป็นการจำลอง เพื่อให้ทดลองขั้นตอนอย่างปลอดภัย" : "ค้นหาและเลือกอุปกรณ์เพื่อดูข้อมูลประกอบการตรวจสอบ"}</span></div>{view !== "network" && <button className="its-primary" type="button" onClick={() => go("network", "diagnostic")}><Wrench aria-hidden="true" size={18} />เริ่มวิเคราะห์ปัญหา</button>}</div>{notice && <div className="its-toast" role="status">{notice}</div>}{view === "dashboard" && <Dashboard go={go} />}{view === "network" && <NetworkTools tool={tool} setTool={setTool} target={target} setTarget={setTarget} port={port} setPort={setPort} ip={ip} setIp={setIp} cidr={cidr} setCidr={setCidr} subnet={subnet} busy={busy} run={run} result={result} copy={copy} />}{view === "devices" && <DeviceList devices={devices} selected={selected} onSelect={setSelected} query={query} onQuery={setQuery} />}</section>
+    <header className="its-topbar"><a href="/" className="its-brand" aria-label="กลับสู่หน้าภาพรวม QuoteFlow"><span aria-hidden="true">IT</span><b>ผู้ช่วยฝ่ายไอที</b><small>ศูนย์ตรวจสอบระบบ</small></a><div className="its-top-status"><ShieldCheck aria-hidden="true" size={17} />รายงานตรวจสอบ: ใช้งานกับเครือข่ายที่อนุญาต</div><button className="its-icon-button" type="button" aria-label="คัดลอกสรุปสถานะ" onClick={() => copy("สรุปสถานะ IT Support") }><Clipboard aria-hidden="true" size={19} /></button></header>
+    <div className="its-layout"><aside className="its-sidebar"><p>เมนูหลัก</p>{nav.map(({ id, label, icon: Icon }) => <button key={id} type="button" className={view === id ? "active" : ""} onClick={() => go(id)}><Icon aria-hidden="true" size={19} /><span>{label}</span><ChevronRight aria-hidden="true" size={16} /></button>)}<p>เครื่องมือเครือข่าย</p>{tools.map(({ id, label, icon: Icon }) => <button key={id} type="button" className={view === "network" && tool === id ? "active" : ""} onClick={() => go("network", id)}><Icon aria-hidden="true" size={18} /><span>{label}</span><ChevronRight aria-hidden="true" size={16} /></button>)}<p>ผู้ดูแลระบบ</p><button type="button" onClick={() => window.location.assign("/it-support/login")}><Settings aria-hidden="true" size={18} /><span>ตั้งค่าระบบ</span><ChevronRight aria-hidden="true" size={16} /></button><div className="its-sidebar-foot"><span>สถานะการติดตาม</span><strong><i /> 17 / 20 เครื่องออนไลน์</strong><small>ซิงก์ข้อมูลล่าสุด: เมื่อสักครู่</small></div></aside>
+      <section className="its-content"><div className="its-page-head"><div><p className="its-kicker">{activeLabel} · {view === "reports" ? "ตรวจสอบอัตโนมัติ" : "ข้อมูลสาธิต"}</p><h1>{view === "dashboard" ? "วันนี้มีอะไรที่ต้องดูแลบ้าง?" : view === "network" ? "เลือกเครื่องมือให้ตรงกับอาการ" : view === "devices" ? "อุปกรณ์ที่ระบบกำลังติดตาม" : "สรุปปัญหาจากข้อมูลเซิร์ฟเวอร์"}</h1><span>{view === "dashboard" ? "เริ่มจากการแจ้งเตือนสีแดง แล้วใช้เครื่องมือด้านล่างเพื่อหาสาเหตุอย่างเป็นขั้นตอน" : view === "network" ? "ผลลัพธ์ในหน้านี้เป็นการจำลอง เพื่อให้ทดลองขั้นตอนอย่างปลอดภัย" : view === "devices" ? "ค้นหาและเลือกอุปกรณ์เพื่อดูข้อมูลประกอบการตรวจสอบ" : "ระบุ IP หรือชื่อเครื่อง แล้วให้ระบบตรวจ DNS, Ping และบริการที่เลือก พร้อมบันทึกรายงานไว้ให้"}</span></div>{(view === "dashboard" || view === "devices") && <button className="its-primary" type="button" onClick={() => go("network", "diagnostic")}><Wrench aria-hidden="true" size={18} />เริ่มวิเคราะห์ปัญหา</button>}</div>{notice && <div className="its-toast" role="status">{notice}</div>}{view === "dashboard" && <Dashboard go={go} />}{view === "network" && <NetworkTools tool={tool} setTool={setTool} target={target} setTarget={setTarget} port={port} setPort={setPort} ip={ip} setIp={setIp} cidr={cidr} setCidr={setCidr} subnet={subnet} busy={busy} run={run} result={result} copy={copy} />}{view === "devices" && <DeviceList devices={devices} selected={selected} onSelect={setSelected} query={query} onQuery={setQuery} />}{view === "reports" && <ReportWorkbench />}</section>
     </div>
   </main>;
 }
